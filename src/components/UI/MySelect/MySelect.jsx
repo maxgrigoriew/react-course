@@ -1,10 +1,10 @@
 import React from 'react'
 
-export default function MySelect({ options, selectValue, onChangeCallback, defaultValue = 'Сортировка по:' }) {
+export default function MySelect({ options, value, onChange, defaultValue = 'Сортировка по:' }) {
   return (
     <select
-      value={selectValue}
-      onChange={e => onChangeCallback(e.target.value)}>
+      value={value}
+      onChange={e => onChange(e.target.value)}>
       <option disabled >{defaultValue}</option>
       {
         options.map((option) =>

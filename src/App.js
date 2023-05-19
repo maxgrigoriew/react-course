@@ -1,8 +1,7 @@
 import { useMemo, useState } from 'react';
 import PostForm from './components/PostForm/PostForm';
 import PostsList from './components/PostsList';
-import MySelect from './components/UI/MySelect/MySelect';
-import MyInput from './components/UI/MyInput/MyInput';
+import PostFilter from './components/PostFilter/PostFilter';
 
 function App() {
   const [posts, setPosts] = useState([
@@ -10,16 +9,18 @@ function App() {
     { id: 2, title: 'PhP', body: 'backend' },
     { id: 3, title: 'Ruby', body: 'backend' },
   ])
-  const [selectedSort, setSelectedSort] = useState('')
-  const [searchQuery, setSearchQuery] = useState('')
-  
+  const [filter, setFilter] = useState({
+    query: '',
+    sort: ''
+  })
+
   // sort posts and caesh
   const sortedPosts = useMemo(() => {
-    if (selectedSort !== '') {
-      return [...posts].sort((a, b) => a[selectedSort].localeCompare(b[selectedSort]))
+    if (filter.sort !== '') {
+      return [...posts].sort((a, b) => a[filter.sort].localeCompare(b[filter.sort]))
     }
     return posts
-  }, [selectedSort, posts])
+  }, [filter.sort, posts])
 
   // add post
   const createPost = (newPost) => {
@@ -31,31 +32,20 @@ function App() {
     setPosts(posts.filter((p) => p.id !== post.id))
   }
 
-  const sortPosts = (sort) => {
-    setSelectedSort(sort)
-  }
-
   const searchedAndSortedPosts = useMemo(() => {
-    return sortedPosts.filter((item) => item.title.toLowerCase().includes(searchQuery.toLowerCase())
-    || item.body.toLowerCase().includes(searchQuery.toLowerCase())
+    return sortedPosts.filter((item) => item.title.toLowerCase().includes(filter.query.toLowerCase())
+      || item.body.toLowerCase().includes(filter.query.toLowerCase())
     )
-  }, [searchQuery, sortedPosts])
+  }, [filter.query, sortedPosts])
 
   return (
     <div className='container pt-5'>
       <PostForm
         create={createPost} />
-      <MyInput
-        onChange={e => setSearchQuery(e.target.value)}
-        value={searchQuery}
-        placeholder='Поиск' />
-      <MySelect
-        selectValue={selectedSort}
-        onChangeCallback={sortPosts}
-        options={[
-          { value: 'title', name: 'По названию' },
-          { value: 'body', name: 'По описанию' },
-        ]} />
+      <PostFilter
+        filter={filter}
+        setFilter={setFilter}
+      />
       <PostsList
         posts={searchedAndSortedPosts}
         title='Это список постов'
