@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import MyButton from '../UI/Button/MyButton'
 import MyInput from '../UI/MyInput/MyInput'
 
@@ -24,7 +24,6 @@ export default function PostForm({create}) {
     create(newPost)
     setPost({ title: '', body: '' })
   }
-
   return (
     <form className="form">
       <MyInput value={post.title} onChange={(e) => setPost({ ...post, title: e.target.value })} />

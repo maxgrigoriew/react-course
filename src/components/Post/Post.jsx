@@ -12,7 +12,12 @@ export default function Post({ post, number, remove }) {
         </div>
         <div className="post__body">{post.body}</div>
       </div>
-      <MyButton onClick={() => remove(post)} className="btn btn-primary">button</MyButton>
+
+      <MyButton
+        onClick={() =>
+          remove(post)}
+        className="btn btn-primary">
+        button</MyButton>
     </div>
   )
 }

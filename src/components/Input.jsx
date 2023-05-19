@@ -4,13 +4,13 @@ export default function Input(props) {
 
   const [input, setInput] = useState('')
 
-  const changeINput = (e) => {
+  const changeInput = (e) => {
     setInput(e.target.value)
   }
   return (
     <div>
       <h1>{input}</h1>
-      <input className='w-100 p-3' type="text" onChange={changeINput} />
+      <input className='w-100 p-3' type="text" {...props} onChange={changeInput} />
     </div>
   )
 }
