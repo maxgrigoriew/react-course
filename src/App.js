@@ -1,42 +1,54 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import PostForm from './components/PostForm/PostForm';
 import PostsList from './components/PostsList';
-import MyButton from './components/UI/Button/MyButton';
 import MySelect from './components/UI/MySelect/MySelect';
+import MyInput from './components/UI/MyInput/MyInput';
 
 function App() {
   const [posts, setPosts] = useState([
-    { id: 1, title: '1Javascript', body: '1Description 1' },
-    { id: 2, title: '2PhP', body: '2Description 2' },
-    { id: 3, title: '3Ruby', body: '3Description 3' },
+    { id: 1, title: 'Javascript', body: 'frontend' },
+    { id: 2, title: 'PhP', body: 'backend' },
+    { id: 3, title: 'Ruby', body: 'backend' },
   ])
-
   const [selectedSort, setSelectedSort] = useState('')
+  const [searchQuery, setSearchQuery] = useState('')
+  
+  // sort posts and caesh
+  const sortedPosts = useMemo(() => {
+    if (selectedSort !== '') {
+      return [...posts].sort((a, b) => a[selectedSort].localeCompare(b[selectedSort]))
+    }
+    return posts
+  }, [selectedSort, posts])
+
+  // add post
   const createPost = (newPost) => {
     setPosts([newPost, ...posts,])
   }
 
+  // remove post
   const removePost = (post) => {
     setPosts(posts.filter((p) => p.id !== post.id))
   }
 
-  const [count, setCount] = useState(0)
-
-  const changeCount = () => {
-    setCount(count + 1)
-  }
-
   const sortPosts = (sort) => {
     setSelectedSort(sort)
-    console.log(sort);
-    setPosts([...posts].sort((a, b) => a[sort].localeCompare(b[sort])))
   }
+
+  const searchedAndSortedPosts = useMemo(() => {
+    return sortedPosts.filter((item) => item.title.toLowerCase().includes(searchQuery.toLowerCase())
+    || item.body.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  }, [searchQuery, sortedPosts])
+
   return (
     <div className='container pt-5'>
-      <MyButton onClick={changeCount} />
       <PostForm
         create={createPost} />
-
+      <MyInput
+        onChange={e => setSearchQuery(e.target.value)}
+        value={searchQuery}
+        placeholder='Поиск' />
       <MySelect
         selectValue={selectedSort}
         onChangeCallback={sortPosts}
@@ -45,7 +57,7 @@ function App() {
           { value: 'body', name: 'По описанию' },
         ]} />
       <PostsList
-        posts={posts}
+        posts={searchedAndSortedPosts}
         title='Это список постов'
         remove={removePost} />
     </div >
