@@ -1,7 +1,4 @@
 import { useMemo, useState } from 'react';
-import PostForm from './components/PostForm/PostForm';
-import PostsList from './components/PostsList';
-import PostFilter from './components/PostFilter/PostFilter';
 
 function App() {
   const [posts, setPosts] = useState([
@@ -40,17 +37,8 @@ function App() {
 
   return (
     <div className='container pt-5'>
-      <PostForm
-        create={createPost} />
-      <PostFilter
-        filter={filter}
-        setFilter={setFilter}
-      />
-      <PostsList
-        posts={searchedAndSortedPosts}
-        title='Это список постов'
-        remove={removePost} />
-    </div >
+      work
+     </div>
 
   );
 }
