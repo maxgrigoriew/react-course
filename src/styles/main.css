@@ -1,1 +1,15 @@
-body {}
+
+.post {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid green;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+.post__content {
+  margin-right: 1rem;
+  flex-grow: 1;
+}
