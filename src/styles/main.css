@@ -33,20 +33,20 @@
   min-width: 500px;
 }
 
-.my-node-enter {
+.form-modal-enter {
   opacity: 0;
 }
 
-.my-node-enter-active {
+.form-modal-enter-active {
   opacity: 1;
   transition: opacity 500ms;
 }
 
-.my-node-exit {
+.form-modal-exit {
   opacity: 1;
 }
 
-.my-node-exit-active {
+.form-modal-exit-active {
   opacity: 0;
   transition: opacity 500ms;
 }

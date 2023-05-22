@@ -56,7 +56,7 @@ function App() {
       <Navbar/>
       <div>
         <div>
-          <CSSTransition in={modal} timeout={500} classNames='my-node' unmountOnExit>
+          <CSSTransition in={modal} timeout={500} classNames='form-modal' unmountOnExit>
             <Modal setVisible={setModal} visible={modal}>
               <PostForm create={createPost}/>
             </Modal>
