@@ -5,6 +5,8 @@ import PostFilter from './components/PostFilter';
 import PostForm from './components/PostForm';
 import PostList from './components/PostList';
 import Button from './components/UI/Button';
+import { CSSTransition } from 'react-transition-group'
+
 
 function App() {
   const [posts, setPosts] = useState([
@@ -52,11 +54,18 @@ function App() {
   return (
     <div className='container pt-5'>
       <Navbar/>
+      <div>
+        <div>
+          <CSSTransition in={modal} timeout={500} classNames='my-node' unmountOnExit>
+            <Modal setVisible={setModal} visible={modal}>
+              <PostForm create={createPost}/>
+            </Modal>
+          </CSSTransition>
+        </div>
+    </div>
       <Button onClick={openModal}>Добавить пост</Button>
   
-    <Modal setVisible={setModal} visible={modal}>
-      <PostForm create={createPost}/>
-    </Modal>
+   
 
      <hr />
 

@@ -1,4 +1,3 @@
-
 .post {
   display: flex;
   justify-content: space-between;
@@ -16,7 +15,7 @@
 
 .form-modal {
   position: fixed;
-  display: none;
+  display: flex;
   right: 0;
   bottom: 0;
   top: 0;
@@ -34,6 +33,20 @@
   min-width: 500px;
 }
 
-.form-modal.active {
-  display: flex;
+.my-node-enter {
+  opacity: 0;
+}
+
+.my-node-enter-active {
+  opacity: 1;
+  transition: opacity 500ms;
+}
+
+.my-node-exit {
+  opacity: 1;
+}
+
+.my-node-exit-active {
+  opacity: 0;
+  transition: opacity 500ms;
 }
