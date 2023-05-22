@@ -1,6 +1,11 @@
 import React from 'react'
 
-export default function PostItem({ post }) {
+export default function PostItem({ post, remove }) {
+  const removePost = () => {
+    remove(post)
+    console.log(post);
+    
+  }
 
   return (
     <div className="post">
@@ -9,7 +14,7 @@ export default function PostItem({ post }) {
         <hr />
         <div className="post__body">{post.body}</div>
       </div>
-      <button className="btn btn-success">Удалить</button>
+      <button onClick={removePost} className="btn btn-success">Удалить</button>
     </div>
   )
 }
