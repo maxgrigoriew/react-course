@@ -25,7 +25,6 @@ export default function PostForm({create, title}) {
 
   return (
     <form>
-        <div>1{title}</div>
         <Input
           value={post.title}
           type="text"

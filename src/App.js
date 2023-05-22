@@ -1,9 +1,10 @@
 import { useMemo, useState } from 'react';
+import Modal from './components/Modal';
 import Navbar from './components/Navbar';
+import PostFilter from './components/PostFilter';
 import PostForm from './components/PostForm';
 import PostList from './components/PostList';
-import Select from './components/Select';
-import Input from './components/UI/Input';
+import Button from './components/UI/Button';
 
 function App() {
   const [posts, setPosts] = useState([
@@ -11,8 +12,8 @@ function App() {
     { id: 1, title: 'Javascript', body: 'frontend' },
     { id: 3, title: 'Ruby', body: 'backend' },
   ])
-  const [selectedSort, setSelectedSort] = useState('')
-  const [searchQuery, setSearchQuery] = useState('')
+  const [filter, setFilter] = useState({search: '', sort: ''})
+  const [modal, setModal] = useState(false)
 
   const options = [
     {
@@ -27,6 +28,7 @@ function App() {
 
   const createPost = (newPost) => {
     setPosts([...posts, newPost])
+    setModal(false)
   }
 
   const removePost = (post) => {
@@ -34,34 +36,39 @@ function App() {
   }
   
   const sortedPosts = useMemo(() => {
-    if (selectedSort) {
-      return [...posts].sort((a, b) => a[selectedSort].localeCompare(b[selectedSort])) 
+    if (filter.sort) {
+      return [...posts].sort((a, b) => a[filter.sort].localeCompare(b[filter.sort])) 
     }
     return posts
-  }, [posts, selectedSort])
+  }, [posts, filter.sort])
 
   const filtredAndSortedPosts = useMemo(() => {
-    return sortedPosts.filter((post) => post.title.includes(searchQuery))
-  }, [searchQuery, sortedPosts])
+    return sortedPosts.filter((post) => post.title.toLowerCase().includes(filter.search.toLowerCase()))
+  }, [filter.search, sortedPosts])
 
-  const sortPosts = (sort) => {
-    setSelectedSort(sort)
+  const openModal = () => {
+    setModal(true)
   }
   return (
     <div className='container pt-5'>
       <Navbar/>
-     <PostForm create={createPost}/>
-     
+      <Button onClick={openModal}>Добавить пост</Button>
+  
+    <Modal setVisible={setModal} visible={modal}>
+      <PostForm create={createPost}/>
+    </Modal>
+
      <hr />
 
-     <Input value={searchQuery} onChange={e => setSearchQuery(e.target.value)}/>
-     <Select 
-        value={selectedSort} 
-        options={options}
-        onChange={sortPosts}
+     <PostFilter 
+      options={options} 
+      filter={filter}
+      setFilter={setFilter}/>
 
-        />
-     <PostList posts={filtredAndSortedPosts} remove={removePost} title={"Список постов!"}/>
+     <PostList 
+      posts={filtredAndSortedPosts} 
+      remove={removePost} 
+      title={"Список постов!"}/>
     </div>
 
   );
