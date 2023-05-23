@@ -10,7 +10,7 @@ import { usePosts } from './hooks/usePosts';
 import PostsService from './api/postService';
 import Loader from './components/UI/Loader';
 import { useFetching } from './hooks/useFetching';
-import { getArrayPages, getPegeCount } from './utils/pages';
+import { getPageCount } from './utils/pages';
 import Pagination from './components/UI/Pagination';
 
 function App() {
@@ -20,15 +20,14 @@ function App() {
   const [totalPages, setTotalPages] = useState(0)
   const [limit, setLimit] = useState(10)
   const [page, setPage] = useState(1)
-  const arrayPages = getArrayPages(totalPages)
 
   const [fetchPosts, isPostsLoading, postsError] = useFetching(async () => {
     const response = await PostsService.getAll(10, 1)
     setPosts(response.data)
     setTotalPages(response.headers['x-total-count'])
     const totalCount = response.headers['x-total-count']
-    setTotalPages(getPegeCount(totalCount, limit))
-  })
+    setTotalPages(getPageCount(totalCount, limit))
+  },)
  
   const filtredAndSortedPosts = usePosts(posts, filter.sort, filter.search ) 
 
@@ -57,10 +56,15 @@ function App() {
   }
 
   useEffect(() => {
-    fetchPosts()
-    console.log(arrayPages);
-    
-  }, [])
+    console.log('useEffect');
+
+    // fetchPosts()
+  }, [page])
+
+  const changePage = (page) => {
+    console.log(page)
+    setPage(page)
+  }
 
   return (
     <div className='container pt-5'>
@@ -91,7 +95,11 @@ function App() {
             : <Loader/>
             
           }
-      <Pagination pages={arrayPages}/>
+      <Pagination 
+        page={page} 
+        totalPages={totalPages} 
+        changePage={changePage}
+      />
     </div>
 
   );

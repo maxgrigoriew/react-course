@@ -1,13 +1,12 @@
-export const getPegeCount = (totalCount, limit) => {
+export const getPageCount = (totalCount, limit) => {
   return Math.ceil(totalCount / limit)
 }
 
 export const getArrayPages = (totalPages) => {
   const arrayPages = []
   for(let i = 0; i < totalPages; i++) {
-    arrayPages.push(i)
+    arrayPages.push(i + 1)
   }
-  console.log(arrayPages);
   
   return arrayPages
 }

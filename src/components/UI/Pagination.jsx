@@ -1,12 +1,20 @@
-import React from 'react'
+import React, {useState} from 'react'
+import { getArrayPages } from '../../utils/pages'
 
-export default function Pagination({pages = []}) {
+export default function Pagination({totalPages, page, changePage}) {
+  const arrayPages = getArrayPages(totalPages)
+  
   return (
     <nav>
       <ul className="pagination">
-        {pages.map((page) => 
-          <li className="page-item">
-            <a className="btn btn-success" href="#">{page + 1}</a>
+        {arrayPages.map((p) => 
+          <li className="page-item m-1" key={p}>
+            <a className={page === p 
+              ? "btn page__current" 
+              : "btn btn-success "} 
+              onClick={ () => changePage(p)}
+              >{p}
+            </a>
           </li>
         )}
       </ul>

@@ -91,3 +91,7 @@
   display: flex;
   justify-content: center;
 }
+
+.page__current {
+  background: red;
+}
