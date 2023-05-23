@@ -8,11 +8,13 @@ import Button from './components/UI/Button';
 import { CSSTransition } from 'react-transition-group'
 import { usePosts } from './hooks/usePosts';
 import PostsService from './api/postService';
+import Loader from './components/UI/Loader';
 
 function App() {
   const [posts, setPosts] = useState([])
   const [filter, setFilter] = useState({search: '', sort: ''})
   const [modal, setModal] = useState(false)
+  const [isPostsLoading, setIsPostsLoading] = useState(false)
   
   const filtredAndSortedPosts = usePosts(posts, filter.sort, filter.search ) 
 
@@ -41,10 +43,17 @@ function App() {
   }
   
   const fetchPosts = async () => {
-   const posts = await PostsService.getAll()
-   console.log(posts);
-   
-   setPosts(posts)
+    try {
+      setIsPostsLoading(true)
+      const posts = await PostsService.getAll()
+      setTimeout(() => {
+        setPosts(posts)
+        setIsPostsLoading(false)
+
+      }, 500)
+    } catch(e) {
+      console.log(e);
+    }
   }
 
   useEffect(() => {
@@ -69,12 +78,14 @@ function App() {
       options={options} 
       filter={filter}
       setFilter={setFilter}/>
-    {posts.length > 0 && (
-      <PostList 
-      posts={filtredAndSortedPosts} 
-      remove={removePost} 
-      title={"Список постов!"}/>
-    )}
+    {!isPostsLoading 
+      ? <PostList 
+          posts={filtredAndSortedPosts} 
+          remove={removePost} 
+          title={"Список постов!"}/>
+      : <Loader/>
+     
+    }
     
     </div>
 
