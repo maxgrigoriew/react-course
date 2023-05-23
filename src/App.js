@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import Modal from './components/Modal';
 import Navbar from './components/Navbar';
 import PostFilter from './components/PostFilter';
@@ -6,16 +6,15 @@ import PostForm from './components/PostForm';
 import PostList from './components/PostList';
 import Button from './components/UI/Button';
 import { CSSTransition } from 'react-transition-group'
-
+import { usePosts } from './hooks/usePosts';
+import PostsService from './api/postService';
 
 function App() {
-  const [posts, setPosts] = useState([
-    { id: 2, title: 'PhP', body: 'backend' },
-    { id: 1, title: 'Javascript', body: 'frontend' },
-    { id: 3, title: 'Ruby', body: 'backend' },
-  ])
+  const [posts, setPosts] = useState([])
   const [filter, setFilter] = useState({search: '', sort: ''})
   const [modal, setModal] = useState(false)
+  
+  const filtredAndSortedPosts = usePosts(posts, filter.sort, filter.search ) 
 
   const options = [
     {
@@ -23,7 +22,7 @@ function App() {
       value: 'title',
     },
     {
-      name: 'Описание',
+       name: 'Описание',
       value: 'body',
     }
   ]
@@ -37,20 +36,21 @@ function App() {
     setPosts(posts.filter((p) => p.id !== post.id))
   }
   
-  const sortedPosts = useMemo(() => {
-    if (filter.sort) {
-      return [...posts].sort((a, b) => a[filter.sort].localeCompare(b[filter.sort])) 
-    }
-    return posts
-  }, [posts, filter.sort])
-
-  const filtredAndSortedPosts = useMemo(() => {
-    return sortedPosts.filter((post) => post.title.toLowerCase().includes(filter.search.toLowerCase()))
-  }, [filter.search, sortedPosts])
-
   const openModal = () => {
     setModal(true)
   }
+  
+  const fetchPosts = async () => {
+   const posts = await PostsService.getAll()
+   console.log(posts);
+   
+   setPosts(posts)
+  }
+
+  useEffect(() => {
+    fetchPosts()
+  }, [])
+
   return (
     <div className='container pt-5'>
       <Navbar/>
@@ -64,20 +64,18 @@ function App() {
         </div>
     </div>
       <Button onClick={openModal}>Добавить пост</Button>
-  
-   
-
-     <hr />
 
      <PostFilter 
       options={options} 
       filter={filter}
       setFilter={setFilter}/>
-
-     <PostList 
+    {posts.length > 0 && (
+      <PostList 
       posts={filtredAndSortedPosts} 
       remove={removePost} 
       title={"Список постов!"}/>
+    )}
+    
     </div>
 
   );

@@ -10,6 +10,7 @@ export default function PostItem({ post, remove }) {
   return (
     <div className="post">
       <div className="post__content">
+        <span className='text-warning text-bold'>{post.id}</span>
         <div className="post__title">{post.title}</div>
         <hr />
         <div className="post__body">{post.body}</div>
