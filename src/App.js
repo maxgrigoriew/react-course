@@ -9,12 +9,17 @@ import { CSSTransition } from 'react-transition-group'
 import { usePosts } from './hooks/usePosts';
 import PostsService from './api/postService';
 import Loader from './components/UI/Loader';
+import { useFetching } from './hooks/useFetching';
 
 function App() {
   const [posts, setPosts] = useState([])
   const [filter, setFilter] = useState({search: '', sort: ''})
   const [modal, setModal] = useState(false)
-  const [isPostsLoading, setIsPostsLoading] = useState(false)
+  const [fetchPosts, isPostsLoading, postsError] = useFetching(async () => {
+    const posts = await PostsService.getAll()
+    setPosts(posts)
+
+  })
   
   const filtredAndSortedPosts = usePosts(posts, filter.sort, filter.search ) 
 
@@ -41,20 +46,6 @@ function App() {
   const openModal = () => {
     setModal(true)
   }
-  
-  const fetchPosts = async () => {
-    try {
-      setIsPostsLoading(true)
-      const posts = await PostsService.getAll()
-      setTimeout(() => {
-        setPosts(posts)
-        setIsPostsLoading(false)
-
-      }, 500)
-    } catch(e) {
-      console.log(e);
-    }
-  }
 
   useEffect(() => {
     fetchPosts()
@@ -78,6 +69,9 @@ function App() {
       options={options} 
       filter={filter}
       setFilter={setFilter}/>
+      {
+        postsError && <div>{postsError}</div>
+      }
     {!isPostsLoading 
       ? <PostList 
           posts={filtredAndSortedPosts} 
