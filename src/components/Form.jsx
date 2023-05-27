@@ -14,6 +14,7 @@ export default function Form({add}) {
       title: post.title,
       body: post.body,
     }
+    if (!post.title || !post.body) return
     
     add(newPost)
     setPost({
