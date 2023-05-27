@@ -14,6 +14,7 @@ export default function Form({add}) {
       title: post.title,
       body: post.body,
     }
+    
     add(newPost)
     setPost({
       title: '',
@@ -23,8 +24,8 @@ export default function Form({add}) {
   }
   return (
     <form>
-      <Input value={post.title} onChange={e => setPost({title: e.target.value})}/>
-      <Input value={post.body} onChange={e => setPost({body: e.target.value})}/>
+      <Input value={post.title} onChange={e => setPost({...post, title: e.target.value})}/>
+      <Input value={post.body} onChange={e => setPost({...post, body: e.target.value})}/>
       <Button onClick={addPost}>Добавить пост</Button>
     </form>
   )
