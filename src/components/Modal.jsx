@@ -4,11 +4,11 @@ import { CSSTransition } from 'react-transition-group'
 export default function Modal({
     createPost,
     children,
-    visible = false,
+    visible,
     setVisible
 }) {
     return (
-        <div className="form-modal" onClick={() => setVisible(!visible)}>
+        <div className="form-modal" onClick={() => setVisible(false)}>
             <div
                 className="form-modal__inner"
                 onClick={e => e.stopPropagation()}
@@ -21,7 +21,7 @@ export default function Modal({
                         <button
                             type="button"
                             className="close"
-                            onClick={() => setVisible(!visible)}
+                            onClick={() => setVisible(false)}
                         >
                             <span aria-hidden="true">&times;</span>
                         </button>
