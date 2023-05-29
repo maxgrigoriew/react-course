@@ -27,6 +27,7 @@ function App() {
   ])
 
   const [filter, setFilter] = useState({ sort: '', search: '' })
+  const [visible, setVisible] = useState(false)
 
   const addPost = (post) => {
     setPosts([...posts, post])
