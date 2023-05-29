@@ -1,7 +1,5 @@
 import { useMemo, useState } from 'react'
-import Form from './components/Form'
-import Input from './components/Input'
-import PostList from './components/PostList'
+import PostItem from './components/PostItem'
 import Select from './components/Select'
 
 function App() {
@@ -24,15 +22,7 @@ function App() {
   ])
 
   const [sort, setSort] = useState('')
-  const [search, setSearch] = useState('')
 
-  const removePost = post => {
-    setPosts(posts.filter(p => p.id !== post.id))
-  }
-
-  const addPost = post => {
-    setPosts([...posts, post])
-  }
 
   const sortedPosts = useMemo(() => {
     return sort
@@ -44,25 +34,19 @@ function App() {
       : posts
   }, [posts, sort])
 
-  const filtredPosts = useMemo(() => {
-    return search
-      ? [...sortedPosts].filter(post => post.title.includes(search))
-      : sortedPosts
-  }, [search, sortedPosts])
 
   return (
     <div className="container pt-5">
-      <Form add={addPost} />
-      <div>{sort}</div>
-      <Input value={search} onChange={e => setSearch(e.target.value)} />
 
-      <Select value={sort} onChange={post => setSort(post)} />
-
-      <PostList
-        posts={filtredPosts}
-        title={'Это список постов'}
-        remove={removePost}
-      />
+      <Select value={sort} onChange={post => setSort(post)} options={[
+        {value: 'title', name: 'Нозвание'},
+        {value: 'body', name: 'Описание'},
+      ]} />
+      {
+        sortedPosts.map((post) => {
+          return <PostItem post={post} key={post.id}/>
+        })
+      }
     </div>
   )
 }
