@@ -27,7 +27,7 @@ function App() {
   ])
 
   const [filter, setFilter] = useState({ sort: '', search: '' })
-  const [visible, setVisible] = useState(false)
+  const [modal, setModal] = useState(false)
 
   const addPost = (post) => {
     setPosts([...posts, post])
@@ -57,7 +57,7 @@ function App() {
 
   return (
     <div className="container pt-5">
-      <Modal>
+      <Modal visible={modal} setVisible={setModal}>
         <Form add={addPost} />
       </Modal>
       <PostFilter filter={filter} setFilter={searchedAndSortedPosts} />
