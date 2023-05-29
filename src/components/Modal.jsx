@@ -18,6 +18,7 @@ export default function Modal({
                         <h5 className="modal-title" id="exampleModalLongTitle">
                             Modal title
                         </h5>
+                        {children}
                         <button
                             type="button"
                             className="close"
