@@ -15,7 +15,6 @@
 
 .form-modal {
   position: fixed;
-  display: flex;
   right: 0;
   bottom: 0;
   top: 0;
@@ -24,8 +23,11 @@
   background: rgba(0, 0, 0, 0.3);
   justify-content: center;
   align-items: center;
+  display: none;
 }
-
+.form-modal.active {
+  display: flex;
+}
 .form-modal__inner {
   background: #fff;
   padding: 1rem;

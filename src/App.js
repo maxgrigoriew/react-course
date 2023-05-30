@@ -6,6 +6,7 @@ import PostFilter from './components/PostFilter'
 import PostItem from './components/PostItem'
 import PostList from './components/PostList'
 import Select from './components/Select'
+import Button from './components/Button'
 import { CSSTransition } from 'react-transition-group'
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
 
   const addPost = post => {
     setPosts([...posts, post])
+    setModal(false)
   }
 
   const removePost = post => {
@@ -60,17 +62,16 @@ function App() {
     return sortedPosts
   }, [filter.search, filter.sort])
 
+  const openModal = () => {
+    setModal(true)
+  }
+
   return (
     <div className="container pt-5">
-      <CSSTransition
-        in={modal}
-        timeout={200}
-        classNames="form-modal"
-      >
-        <Modal visible={modal} setVisible={() => setModal(!modal)}>
-          <Form add={addPost} />
-        </Modal>
-      </CSSTransition>
+      <Button onClick={openModal}>Добавить пост</Button>
+      <Modal visible={modal} setVisible={setModal}>
+        <Form add={addPost} />
+      </Modal>
       <PostFilter filter={filter} setFilter={searchedAndSortedPosts} />
       <PostList searchedAndSorted posts={posts} remove={removePost} />
     </div>
