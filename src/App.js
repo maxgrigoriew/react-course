@@ -62,13 +62,9 @@ function App() {
     return sortedPosts
   }, [filter.search, filter.sort])
 
-  const openModal = () => {
-    setModal(true)
-  }
-
   return (
     <div className="container pt-5">
-      <Button onClick={openModal}>Добавить пост</Button>
+      <Button onClick={() => setModal(true)}>Добавить пост</Button>
       <Modal visible={modal} setVisible={setModal}>
         <Form add={addPost} />
       </Modal>

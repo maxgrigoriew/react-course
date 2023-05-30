@@ -1,12 +1,11 @@
 import React from 'react'
 
-export default function Modal({
-  children,
-  visible = false,
-  setVisible
-}) {
+export default function Modal({ children, visible = false, setVisible }) {
   return (
-    <div className={visible ? "form-modal + active" : "form-modal"} onClick={() => setVisible(!visible)}>
+    <div
+      className={visible ? 'form-modal + active' : 'form-modal'}
+      onClick={() => setVisible(!visible)}
+    >
       <div className="form-modal__inner" onClick={e => e.stopPropagation()}>
         <div className="modal-content">
           <div className="modal-header">
