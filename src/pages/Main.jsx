@@ -22,13 +22,13 @@ export default function Main() {
   const [page, setPage] = useState(1);
 
   const [fetchPosts, isPostsLoading, postsError] = useFetching(async () => {
-    const response = await PostsService.getAll(10, 1);
+    const response = await PostsService.getAll(10, page);
     
     setPosts(response.data);
     setTotalPages(response.headers["x-total-count"]);
     const totalCount = response.headers["x-total-count"];
     setTotalPages(getPageCount(totalCount, limit));
-  });
+  }, [page]);
 
   const filtredAndSortedPosts = usePosts(posts, filter.sort, filter.search);
 
@@ -63,8 +63,8 @@ export default function Main() {
   }, []);
 
   const changePage = (page) => {
-    console.log(page);
     setPage(page);
+    fetchPosts();
   };
 
   return (
