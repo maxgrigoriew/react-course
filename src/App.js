@@ -32,7 +32,6 @@ function App() {
 
   const addPost = post => {
     setPosts([...posts, post])
-    setModal(false)
   }
 
   const removePost = post => {
@@ -68,7 +67,7 @@ function App() {
         timeout={200}
         classNames="form-modal"
       >
-        <Modal visible={modal} setVisible={setModal(!visible)}>
+        <Modal visible={modal} setVisible={() => setModal(!modal)}>
           <Form add={addPost} />
         </Modal>
       </CSSTransition>
