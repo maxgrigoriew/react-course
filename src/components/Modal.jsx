@@ -1,6 +1,7 @@
 import React from 'react'
 
 export default function Modal({ children, visible = false, setVisible }) {
+    
   return (
     <div
       className={visible ? 'form-modal + active' : 'form-modal'}

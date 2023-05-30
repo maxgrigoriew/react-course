@@ -2,6 +2,10 @@ import React from 'react'
 import Button from './Button'
 
 export default function PostItem({ post, remove }) {
+
+    const removePost = () => {
+        
+    }
     return (
         <div className="card p-3 mb-3" style={{ border: '3px solid green' }}>
             <div className="row">
