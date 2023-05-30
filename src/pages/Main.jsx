@@ -23,7 +23,6 @@ export default function Main() {
 
   const [fetchPosts, isPostsLoading, postsError] = useFetching(async () => {
     const response = await PostsService.getAll(10, page);
-    
     setPosts(response.data);
     setTotalPages(response.headers["x-total-count"]);
     const totalCount = response.headers["x-total-count"];
@@ -57,9 +56,9 @@ export default function Main() {
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      fetchPosts();
-    }, 300);
+    console.log('log');
+    
+    fetchPosts();
   }, []);
 
   const changePage = (page) => {
