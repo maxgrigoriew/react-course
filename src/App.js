@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
+import Layout from './Layout'
 import Main from './pages/Main'
 import Posts from './pages/Posts'
 import { routes } from './router'
@@ -7,8 +8,7 @@ import { routes } from './router'
 export default function App() {
   return (
     <>
-      <Navbar />
-      <div className="container">
+      <Layout>
         <Routes>
           {
             routes.map((item) =>
@@ -19,7 +19,7 @@ export default function App() {
             )
           }
         </Routes>
-      </div>
+      </Layout>
     </>
   )
 }
