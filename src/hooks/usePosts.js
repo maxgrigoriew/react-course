@@ -27,15 +27,6 @@ export const usePosts = (posts, sort, search) => {
       )
     }
     return sortedPosts
-    // if (search) {
-    //   return [...sortedPosts].filter(p =>
-    //       p.title
-    //         .toLowerCase()
-    //         .includes(search.toLowerCase()) ||
-    //       p.body.toLowerCase().includes(search.toLowerCase())
-    //   )
-    // }
-    // return sortedPosts
   }, [search, sort, posts])
 
   return searchedAndSortedPosts

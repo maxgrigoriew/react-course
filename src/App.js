@@ -10,49 +10,29 @@ import Button from './components/Button'
 import { CSSTransition } from 'react-transition-group'
 import { usePosts, useSortedPosts } from './hooks/usePosts'
 import PostService from './api/PostService'
+import { Routes, Route, BrowserRouter } from 'react-router-dom'
+import { routes } from './routes'
+import Layout from './Layout'
 
 function App() {
-  const [posts, setPosts] = useState([])
-
-  const [filter, setFilter] = useState({ sort: '', search: '' })
-  const [modal, setModal] = useState(false)
-  const searchedAndSortedPosts = usePosts(posts, filter.sort, filter.search)
-  const sortedPosts = useSortedPosts(filter.sort, posts)
-
-  const addPost = post => {
-    setPosts([...posts, post])
-    setModal(false)
-  }
-
-  const removePost = post => {
-    setPosts(posts.filter(p => p.id !== post.id))
-  }
-
-  const fetchPosts = async () => {
-    const response = await PostService.getPosts()
-    setPosts(response)
-  }
-
-  useEffect(() => {
-    fetchPosts()
-  }, [])
 
   return (
-    <div className="container pt-5">
-      <Button onClick={() => setModal(true)} className="mb-3">
-        Добавить пост
-      </Button>
-      <Modal visible={modal} setVisible={setModal}>
-        <Form add={addPost} />
-      </Modal>
-      <div>{filter.search}</div>
-      <PostFilter filter={filter} setFilter={search => setFilter(search)} />
-      <PostList
-        searchedAndSorted
-        posts={searchedAndSortedPosts}
-        remove={removePost}
-      />
-    </div>
+    <BrowserRouter>
+      <Layout>
+        <Routes>
+          {
+            routes.map((item) =>
+              <Route
+                path={item.path}
+                element={<item.component />}
+                key={item.component} />
+            )
+          }
+        </Routes>
+
+      </Layout>
+    </BrowserRouter>
+
   )
 }
 
