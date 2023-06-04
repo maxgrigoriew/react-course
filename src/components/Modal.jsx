@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Modal({createPost, children, visible = false, setVisible}) {
+export default function Modal({ createPost, children, visible = false, setVisible }) {
 
   return (
     <div className='form-modal' onClick={() => setVisible(!visible)}>
@@ -18,6 +18,6 @@ export default function Modal({createPost, children, visible = false, setVisible
         </div>
       </div>
     </div>
-      
+
   )
 }
