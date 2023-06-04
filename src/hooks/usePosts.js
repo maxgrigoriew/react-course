@@ -1,13 +1,13 @@
-import {useMemo} from 'react'
+import { useMemo } from 'react'
 
 export const useSortedPosts = (sort, posts) => {
   const sortedPosts = useMemo(() => {
     return sort
       ? [...posts].sort((a, b) => {
-          if (a[sort] < b[sort]) {
-            return -1
-          }
-        })
+        if (a[sort] < b[sort]) {
+          return -1
+        }
+      })
       : posts
   }, [posts, sort])
 
@@ -19,16 +19,24 @@ export const usePosts = (posts, sort, search) => {
 
   const searchedAndSortedPosts = useMemo(() => {
     if (search) {
-      return [...sortedPosts].filter(
-        p =>
-          p.title
-            .toLocaleLowerCase()
-            .includes(search.toLocaleLowerCase()) ||
-          p.body.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+      return [...sortedPosts].filter((p) =>
+        p.title
+          .toLowerCase()
+          .includes(search.toLowerCase())
+        || p.body.toLowerCase().includes(search.toLowerCase())
       )
     }
     return sortedPosts
-  }, [search, sort])
+    // if (search) {
+    //   return [...sortedPosts].filter(p =>
+    //       p.title
+    //         .toLowerCase()
+    //         .includes(search.toLowerCase()) ||
+    //       p.body.toLowerCase().includes(search.toLowerCase())
+    //   )
+    // }
+    // return sortedPosts
+  }, [search, sort, posts])
 
   return searchedAndSortedPosts
 }

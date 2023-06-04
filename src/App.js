@@ -8,7 +8,7 @@ import PostList from './components/PostList'
 import Select from './components/Select'
 import Button from './components/Button'
 import { CSSTransition } from 'react-transition-group'
-import { usePosts } from './hooks/usePosts'
+import { usePosts, useSortedPosts } from './hooks/usePosts'
 import PostService from './api/PostService'
 
 function App() {
@@ -17,6 +17,7 @@ function App() {
   const [filter, setFilter] = useState({ sort: '', search: '' })
   const [modal, setModal] = useState(false)
   const searchedAndSortedPosts = usePosts(posts, filter.sort, filter.search)
+  const sortedPosts = useSortedPosts(filter.sort, posts)
 
   const addPost = post => {
     setPosts([...posts, post])
